@@ -1,4 +1,4 @@
-#!/usr/bin/env perl
+#!/usr/bin/perl__
 
 #
 # Copyright (C) 2014 Opsmate, Inc.
@@ -113,6 +113,7 @@ sub download {
 	my ($uri) = @_;
 
 	# Fetch the URI
+  $ua->agent('Mozilla');
 	my $response = $ua->get($uri);
 	if (!$response->is_success) {
 		warn "Failed to fetch $uri: " . $response->status_line;
@@ -150,7 +151,7 @@ sub is_trusted {
 	my ($cert) = @_;
 	my $out = '';
 	my $err = '';
-	run3([ 'openssl', 'verify', '-CApath', '/nonexistent', '-CAfile', $CA_FILE ], $cert, \$out, \$err);
+	run3([ 'openssl', 'verify', '-CAfile', $CA_FILE ], $cert, \$out, \$err);
 	return $? == 0;
 }
 
